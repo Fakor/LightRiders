@@ -8,12 +8,14 @@
 
 using namespace testing;
 
-TEST(GridboardTest, LightRidersTests)
+TEST(GridboardTests, GridBoardConstructor)
 {
-    base::GridBoard board(2,2, {0,1}, {1,0});
+    base::GridBoard<2,2> board({0,1}, {1,0});
 
     ASSERT_EQ('.', board.GetSquareValue({0,0}));
     ASSERT_EQ('0', board.GetSquareValue({0,1}));
     ASSERT_EQ('1', board.GetSquareValue({1,0}));
     ASSERT_EQ('.', board.GetSquareValue({1,1}));
+
+    std::string expected_position = ".,0,1,.";
 }
