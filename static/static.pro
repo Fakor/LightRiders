@@ -28,7 +28,8 @@ SOURCES += \
 
 HEADERS += \
     GridBoard.h \
-    Position.h
+    Position.h \
+    agent.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

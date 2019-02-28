@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Position.h"
+#include "agent.h"
 
 namespace base {
 
@@ -12,38 +13,56 @@ namespace base {
 	class GridBoard
 	{
 	public:
+
         static const uint16_t BOARD_SIZE = N*M;
 
-        GridBoard(Position p0, Position p1);
+        GridBoard(Agent<M,N> &a0, Agent<M,N> &a1);
         virtual ~GridBoard() = default;
 
         char GetSquareValue(Position pos) const;
 
-        std::string GameField() const;
+        const char* GetStatus() const;
+        void SendStatus();
+        void Run();
 	private:
-        char squares_[M*N];
+        char status_[BOARD_SIZE+1];
+
+        Agent<M,N>& a0_;
+        Agent<M,N>& a1_;
 
         void SetSquare(Position pos, char value);
 	};
 
 
     template<int M, int N>
-    GridBoard<M,N>::GridBoard(Position p0, Position p1)
+    GridBoard<M,N>::GridBoard(Agent<M,N> &a0, Agent<M,N> &a1)
+        : a0_{a0}, a1_{a1}
     {
-        memset(squares_, '.', BOARD_SIZE);
-        SetSquare(p0, '0');
-        SetSquare(p1, '1');
+        memset(status_, '.', BOARD_SIZE);
+        SetSquare(a0_.GetPos(), '0');
+        SetSquare(a1_.GetPos(), '1');
+        status_[BOARD_SIZE] = '\0';
     }
 
     template<int M, int N>
     char GridBoard<M,N>::GetSquareValue(Position pos) const{
-        return squares_[pos.Y()*N + pos.X()];
+        return status_[pos.Y()*N + pos.X()];
     }
 
     template<int M, int N>
     void GridBoard<M,N>::SetSquare(Position pos, char value){
-        squares_[pos.Y()*N + pos.X()] = value;
+        status_[pos.Y()*N + pos.X()] = value;
     }
 
+    template<int M, int N>
+    const char* GridBoard<M,N>::GetStatus() const{
+        return status_;
+    }
+
+    template<int M, int N>
+    void GridBoard<M,N>::SendStatus(){
+        a0_.SetStatus(status_);
+        a1_.SetStatus(status_);
+    }
 }
 

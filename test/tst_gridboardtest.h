@@ -3,19 +3,29 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+#include <fstream>
+
 #include "../static/GridBoard.h"
 #include "../static/Position.h"
+#include "../static/agent.h"
 
 using namespace testing;
 
 TEST(GridboardTests, GridBoardConstructor)
 {
-    base::GridBoard<2,2> board({0,1}, {1,0});
+    base::Agent<2,2> a1{{0,1}};
+    base::Agent<2,2> a2{{1,0}};
 
-    ASSERT_EQ('.', board.GetSquareValue({0,0}));
-    ASSERT_EQ('0', board.GetSquareValue({0,1}));
-    ASSERT_EQ('1', board.GetSquareValue({1,0}));
-    ASSERT_EQ('.', board.GetSquareValue({1,1}));
+    base::GridBoard<2,2> board(a1, a2);
 
-    std::string expected_position = ".,0,1,.";
+    board.SendStatus();
+
+    char expected_status[] = ".10.";
+    const char* board_status = board.GetStatus();
+    const char* actual_status_1 = a1.CurrentStatus();
+    const char* actual_status_2 = a2.CurrentStatus();
+
+    ASSERT_EQ(strcmp(expected_status, board_status), 0) << expected_status << " != " << board_status;
+    ASSERT_EQ(strcmp(expected_status, actual_status_1), 0) << expected_status << " != " << actual_status_1;
+    ASSERT_EQ(strcmp(expected_status, actual_status_2), 0) << expected_status << " != " << actual_status_2;
 }
