@@ -3,33 +3,47 @@
 
 #include <iostream> // REMOVE LATER
 
-#include "Position.h"
+#include "utility.h"
 
 const uint16_t BUFFER_SIZE = 256;
 
 namespace  base {
+
+    struct AgentState{
+        AgentState(Position p, Direction d): pos{p}, dir{d} {}
+        Position pos;
+        Direction dir;
+    };
+
 
     template <int M, int N>
     class Agent{
     public:
         static const uint16_t BOARD_SIZE = N*M;
 
-        Agent(Position start_pos);
+        Agent(Position start_pos, char name);
 
-        Position& GetPos() {return pos_;}
+        AgentState GetState() {return state_;}
+        char GetName() {return name_;}
 
         const char* CurrentStatus() const;
         void SetStatus(char* status);
+
+        void SetDesiredDirection(Direction dir);
+        Direction GetDesiredDirection() const;
     private:
-        Position pos_;
+        AgentState state_;
+        char name_;
+
         char status_[BOARD_SIZE];
 
         char buf_[BUFFER_SIZE];
+        Direction desired_direction_{Direction::UP};
     };
 
     template <int M, int N>
-    Agent<M,N>::Agent(Position start_pos)
-        : pos_{start_pos}
+    Agent<M,N>::Agent(Position start_pos, char name)
+        :state_{start_pos, Direction::UP}, name_{name}
     {
     }
 
@@ -43,6 +57,15 @@ namespace  base {
         strcpy(status_, status);
     }
 
+    template <int M, int N>
+    void Agent<M,N>::SetDesiredDirection(Direction dir){
+        desired_direction_ = dir;
+    }
+
+    template <int M, int N>
+    Direction Agent<M,N>::GetDesiredDirection() const{
+        return desired_direction_;
+    }
 }
 
 

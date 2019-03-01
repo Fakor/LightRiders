@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#include "Position.h"
 #include "agent.h"
+#include "utility.h"
 
 namespace base {
 
@@ -23,25 +23,30 @@ namespace base {
 
         const char* GetStatus() const;
         void SendStatus();
-        void Run();
+        void PerformTurn();
 	private:
         char status_[BOARD_SIZE+1];
 
         Agent<M,N>& a0_;
         Agent<M,N>& a1_;
 
+        AgentState a0_state_;
+        AgentState a1_state_;
+
         void SetSquare(Position pos, char value);
+        void UpdateAgentState(AgentState& state, Agent<M,N>& agent);
 	};
 
 
     template<int M, int N>
     GridBoard<M,N>::GridBoard(Agent<M,N> &a0, Agent<M,N> &a1)
-        : a0_{a0}, a1_{a1}
+        : a0_{a0}, a1_{a1}, a0_state_{a0.GetState()}, a1_state_{a1.GetState()}
     {
         memset(status_, '.', BOARD_SIZE);
-        SetSquare(a0_.GetPos(), '0');
-        SetSquare(a1_.GetPos(), '1');
+        SetSquare(a0_state_.pos, a0_.GetName());
+        SetSquare(a1_state_.pos, a1_.GetName());
         status_[BOARD_SIZE] = '\0';
+
     }
 
     template<int M, int N>
@@ -64,5 +69,23 @@ namespace base {
         a0_.SetStatus(status_);
         a1_.SetStatus(status_);
     }
+
+    template<int M, int N>
+    void GridBoard<M,N>::PerformTurn(){
+        UpdateAgentState(a0_state_, a0_);
+        UpdateAgentState(a1_state_, a1_);
+    }
+
+    template<int M, int N>
+    void GridBoard<M,N>::UpdateAgentState(AgentState& state, Agent<M,N>& agent){
+        if(GetOpositeDirection(state.dir) != agent.GetDesiredDirection()){
+            state.dir = agent.GetDesiredDirection();
+        }
+        SetSquare(state.pos, 'x');
+        Position new_square = NewPositionFromDirection(state.pos, state.dir);
+        state.pos = new_square;
+        SetSquare(new_square, agent.GetName());
+    }
+
 }
 
