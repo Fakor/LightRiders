@@ -71,3 +71,24 @@ TEST(GridboardTests, AgentSetDirection){
     ASSERT_FALSE(board.Agent0Alive());
     ASSERT_TRUE(board.Agent1Alive());
 }
+
+TEST(GridboardTests, BlockedSquare){
+    base::Agent<3,3> a0{{1,1}, '0'};
+    base::Agent<3,3> a1{{0,0}, '1'};
+
+    base::GridBoard<3,3> board(a0, a1);
+
+    a0.SetDesiredDirection(base::Direction::LEFT);
+    a1.SetDesiredDirection(base::Direction::RIGHT);
+
+    bool round_done = board.PerformTurn();
+    ASSERT_FALSE(round_done);
+
+    a0.SetDesiredDirection(base::Direction::DOWN);
+    a1.SetDesiredDirection(base::Direction::DOWN);
+
+    round_done = board.PerformTurn();
+    ASSERT_TRUE(round_done);
+    ASSERT_TRUE(board.Agent0Alive());
+    ASSERT_FALSE(board.Agent1Alive());
+}

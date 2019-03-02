@@ -25,7 +25,8 @@ namespace base {
         void SendStatus();
         bool PerformTurn();
 
-        bool WithinBoarders(Position pos);
+        bool WithinBoarders(Position pos) const;
+        bool BlockedSquare(Position pos) const;
 
         bool Agent0Alive() const {return a0_state_.alive;}
         bool Agent1Alive() const {return a1_state_.alive;}
@@ -84,8 +85,13 @@ namespace base {
     }
 
     template<int M, int N>
-    bool GridBoard<M,N>::WithinBoarders(Position pos){
+    bool GridBoard<M,N>::WithinBoarders(Position pos) const{
         return pos.X() >= 0 && pos.X() < N && pos.Y() >= 0 && pos.Y() < M;
+    }
+
+    template<int M, int N>
+    bool GridBoard<M,N>::BlockedSquare(Position pos) const{
+        return GetSquareValue(pos) == 'x';
     }
 
     template<int M, int N>
@@ -98,7 +104,7 @@ namespace base {
         }
         SetSquare(state.pos, 'x');
         Position new_square = NewPositionFromDirection(state.pos, state.dir);
-        if(!WithinBoarders(new_square)){
+        if(!WithinBoarders(new_square) || BlockedSquare(new_square)){
             state.alive = false;
         } else{
             state.pos = new_square;
