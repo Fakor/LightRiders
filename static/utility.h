@@ -8,13 +8,13 @@ namespace base {
     class Position
     {
     public:
-        Position(uint16_t x, uint16_t y): x_{x}, y_{y} {}
+        Position(int16_t x, int16_t y): x_{x}, y_{y} {}
 
-        uint16_t X() const {return x_;}
-        uint16_t Y() const {return y_;}
+        int16_t X() const {return x_;}
+        int16_t Y() const {return y_;}
     private:
-        uint16_t x_;
-        uint16_t y_;
+        int16_t x_;
+        int16_t y_;
     };
 
     bool operator==(const Position& lhs, const Position& rhs){

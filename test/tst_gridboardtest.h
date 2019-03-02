@@ -43,7 +43,9 @@ TEST(GridboardTests, AgentSetDirection){
     const char* board_status = board.GetStatus();
     ASSERT_EQ(strcmp(expected_status_1, board_status), 0) << expected_status_1 << " != " << board_status;
 
-    board.PerformTurn();
+    bool round_done = board.PerformTurn();
+
+    ASSERT_FALSE(round_done);
 
     char expected_status_2[] = "x0.1x....";
     board_status = board.GetStatus();
@@ -52,9 +54,20 @@ TEST(GridboardTests, AgentSetDirection){
     a0.SetDesiredDirection(base::Direction::RIGHT);
     a1.SetDesiredDirection(base::Direction::UP);
 
-    board.PerformTurn();
+    round_done = board.PerformTurn();
+
+    ASSERT_FALSE(round_done);
 
     char expected_status_3[] = "xx0xx.1..";
     board_status = board.GetStatus();
     ASSERT_EQ(strcmp(expected_status_3, board_status), 0) << expected_status_3 << " != " << board_status;
+
+    a1.SetDesiredDirection(base::Direction::RIGHT);
+
+    round_done = board.PerformTurn();
+
+    ASSERT_TRUE(round_done);
+
+    ASSERT_FALSE(board.Agent0Alive());
+    ASSERT_TRUE(board.Agent1Alive());
 }

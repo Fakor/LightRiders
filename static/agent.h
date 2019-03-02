@@ -13,6 +13,7 @@ namespace  base {
         AgentState(Position p, Direction d): pos{p}, dir{d} {}
         Position pos;
         Direction dir;
+        bool alive = true;
     };
 
 

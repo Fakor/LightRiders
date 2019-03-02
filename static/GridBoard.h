@@ -23,7 +23,12 @@ namespace base {
 
         const char* GetStatus() const;
         void SendStatus();
-        void PerformTurn();
+        bool PerformTurn();
+
+        bool WithinBoarders(Position pos);
+
+        bool Agent0Alive() const {return a0_state_.alive;}
+        bool Agent1Alive() const {return a1_state_.alive;}
 	private:
         char status_[BOARD_SIZE+1];
 
@@ -71,9 +76,16 @@ namespace base {
     }
 
     template<int M, int N>
-    void GridBoard<M,N>::PerformTurn(){
+    bool GridBoard<M,N>::PerformTurn(){
         UpdateAgentState(a0_state_, a0_);
         UpdateAgentState(a1_state_, a1_);
+
+        return !a0_state_.alive || !a1_state_.alive;
+    }
+
+    template<int M, int N>
+    bool GridBoard<M,N>::WithinBoarders(Position pos){
+        return pos.X() >= 0 && pos.X() < N && pos.Y() >= 0 && pos.Y() < M;
     }
 
     template<int M, int N>
@@ -86,8 +98,12 @@ namespace base {
         }
         SetSquare(state.pos, 'x');
         Position new_square = NewPositionFromDirection(state.pos, state.dir);
-        state.pos = new_square;
-        SetSquare(new_square, agent.GetName());
+        if(!WithinBoarders(new_square)){
+            state.alive = false;
+        } else{
+            state.pos = new_square;
+            SetSquare(new_square, agent.GetName());
+        }
     }
 
 }
