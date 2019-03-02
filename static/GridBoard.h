@@ -78,7 +78,10 @@ namespace base {
 
     template<int M, int N>
     void GridBoard<M,N>::UpdateAgentState(AgentState& state, Agent<M,N>& agent){
-        if(GetOpositeDirection(state.dir) != agent.GetDesiredDirection()){
+        if(agent.FirstMove()){
+            state.dir = agent.GetDesiredDirection();
+            agent.FirstMoveDone();
+        } else if(GetOpositeDirection(state.dir) != agent.GetDesiredDirection()){
             state.dir = agent.GetDesiredDirection();
         }
         SetSquare(state.pos, 'x');

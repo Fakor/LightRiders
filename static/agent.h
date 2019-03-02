@@ -31,6 +31,9 @@ namespace  base {
 
         void SetDesiredDirection(Direction dir);
         Direction GetDesiredDirection() const;
+
+        bool FirstMove() const {return first_move_;}
+        void FirstMoveDone() {first_move_=false;}
     private:
         AgentState state_;
         char name_;
@@ -39,6 +42,7 @@ namespace  base {
 
         char buf_[BUFFER_SIZE];
         Direction desired_direction_{Direction::UP};
+        bool first_move_{true};
     };
 
     template <int M, int N>

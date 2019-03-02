@@ -13,17 +13,17 @@ using namespace testing;
 
 TEST(GridboardTests, GridBoardConstructor)
 {
-    base::Agent<2,2> a1{{0,1}, '0'};
-    base::Agent<2,2> a2{{1,0}, '1'};
+    base::Agent<2,2> a0{{0,1}, '0'};
+    base::Agent<2,2> a1{{1,0}, '1'};
 
-    base::GridBoard<2,2> board(a1, a2);
+    base::GridBoard<2,2> board(a0, a1);
 
     board.SendStatus();
 
     char expected_status[] = ".10.";
     const char* board_status = board.GetStatus();
-    const char* actual_status_1 = a1.CurrentStatus();
-    const char* actual_status_2 = a2.CurrentStatus();
+    const char* actual_status_1 = a0.CurrentStatus();
+    const char* actual_status_2 = a1.CurrentStatus();
 
     ASSERT_EQ(strcmp(expected_status, board_status), 0) << expected_status << " != " << board_status;
     ASSERT_EQ(strcmp(expected_status, actual_status_1), 0) << expected_status << " != " << actual_status_1;
@@ -31,21 +31,30 @@ TEST(GridboardTests, GridBoardConstructor)
 }
 
 TEST(GridboardTests, AgentSetDirection){
-    base::Agent<3,3> a1{{1,1}, '0'};
-    base::Agent<3,3> a2{{0,0}, '1'};
+    base::Agent<3,3> a0{{1,1}, '0'};
+    base::Agent<3,3> a1{{0,0}, '1'};
 
-    base::GridBoard<3,3> board(a1, a2);
+    base::GridBoard<3,3> board(a0, a1);
 
-    a1.SetDesiredDirection(base::Direction::UP);
-    a2.SetDesiredDirection(base::Direction::DOWN);
+    a0.SetDesiredDirection(base::Direction::UP);
+    a1.SetDesiredDirection(base::Direction::DOWN);
 
-    char expected_status[] = "1...0....";
+    char expected_status_1[] = "1...0....";
     const char* board_status = board.GetStatus();
-    ASSERT_EQ(strcmp(expected_status, board_status), 0) << expected_status << " != " << board_status;
+    ASSERT_EQ(strcmp(expected_status_1, board_status), 0) << expected_status_1 << " != " << board_status;
 
     board.PerformTurn();
 
-    char expected_status_after[] = "x0.1x....";
+    char expected_status_2[] = "x0.1x....";
     board_status = board.GetStatus();
-    ASSERT_EQ(strcmp(expected_status_after, board_status), 0) << expected_status_after << " != " << board_status;
+    ASSERT_EQ(strcmp(expected_status_2, board_status), 0) << expected_status_2 << " != " << board_status;
+
+    a0.SetDesiredDirection(base::Direction::RIGHT);
+    a1.SetDesiredDirection(base::Direction::UP);
+
+    board.PerformTurn();
+
+    char expected_status_3[] = "xx0xx.1..";
+    board_status = board.GetStatus();
+    ASSERT_EQ(strcmp(expected_status_3, board_status), 0) << expected_status_3 << " != " << board_status;
 }
