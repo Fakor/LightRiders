@@ -91,7 +91,7 @@ namespace base {
 
     template<int M, int N>
     bool GridBoard<M,N>::BlockedSquare(Position pos) const{
-        return GetSquareValue(pos) == 'x';
+        return GetSquareValue(pos) != '.';
     }
 
     template<int M, int N>
