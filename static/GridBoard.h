@@ -27,6 +27,7 @@ namespace base {
 
         bool WithinBoarders(Position pos) const;
         bool BlockedSquare(Position pos) const;
+        void AgentsSameSquare();
 
         bool Agent0Alive() const {return a0_state_.alive;}
         bool Agent1Alive() const {return a1_state_.alive;}
@@ -81,6 +82,8 @@ namespace base {
         UpdateAgentState(a0_state_, a0_);
         UpdateAgentState(a1_state_, a1_);
 
+        AgentsSameSquare();
+
         return !a0_state_.alive || !a1_state_.alive;
     }
 
@@ -95,6 +98,14 @@ namespace base {
     }
 
     template<int M, int N>
+    void GridBoard<M,N>::AgentsSameSquare(){
+        if(a0_state_.pos == a1_state_.pos){
+            a0_state_.alive = false;
+            a1_state_.alive = false;
+        }
+    }
+
+    template<int M, int N>
     void GridBoard<M,N>::UpdateAgentState(AgentState& state, Agent<M,N>& agent){
         if(agent.FirstMove()){
             state.dir = agent.GetDesiredDirection();
@@ -104,12 +115,14 @@ namespace base {
         }
         SetSquare(state.pos, 'x');
         Position new_square = NewPositionFromDirection(state.pos, state.dir);
-        if(!WithinBoarders(new_square) || BlockedSquare(new_square)){
+        if(!WithinBoarders(new_square)){
             state.alive = false;
-        } else{
-            state.pos = new_square;
-            SetSquare(new_square, agent.GetName());
+            return;
+        } else if(BlockedSquare(new_square)){
+            state.alive = false;
         }
+        state.pos = new_square;
+        SetSquare(new_square, agent.GetName());
     }
 
 }
