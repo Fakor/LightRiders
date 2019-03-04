@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include "agent.h"
 #include "utility.h"
@@ -37,6 +38,9 @@ namespace base {
         Agent<M,N>& a0_;
         Agent<M,N>& a1_;
 
+        std::stringstream a0_status_stream_;
+        std::stringstream a1_status_stream_;
+
         AgentState a0_state_;
         AgentState a1_state_;
 
@@ -53,6 +57,8 @@ namespace base {
         SetSquare(a0_state_.pos, a0_.GetName());
         SetSquare(a1_state_.pos, a1_.GetName());
         status_[BOARD_SIZE] = '\0';
+        a0_.SetStatusStream(&a0_status_stream_);
+        a1_.SetStatusStream(&a1_status_stream_);
 
     }
 
@@ -73,8 +79,10 @@ namespace base {
 
     template<int M, int N>
     void GridBoard<M,N>::SendStatus(){
-        a0_.SetStatus(status_);
-        a1_.SetStatus(status_);
+        a0_status_stream_ << status_;
+        a1_status_stream_ << status_;
+        a0_.ReadStatus();
+        a1_.ReadStatus();
     }
 
     template<int M, int N>

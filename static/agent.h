@@ -1,7 +1,8 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-#include <iostream> // REMOVE LATER
+#include <sstream>
+#include <thread>
 
 #include "utility.h"
 
@@ -28,13 +29,15 @@ namespace  base {
         char GetName() {return name_;}
 
         const char* CurrentStatus() const;
-        void SetStatus(char* status);
+        void ReadStatus();
 
         void SetDesiredDirection(Direction dir);
         Direction GetDesiredDirection() const;
 
         bool FirstMove() const {return first_move_;}
         void FirstMoveDone() {first_move_=false;}
+
+        void SetStatusStream(std::stringstream* status_stream);
     private:
         AgentState state_;
         char name_;
@@ -44,6 +47,10 @@ namespace  base {
         char buf_[BUFFER_SIZE];
         Direction desired_direction_{Direction::UP};
         bool first_move_{true};
+
+        std::stringstream* status_stream_;
+
+
     };
 
     template <int M, int N>
@@ -58,8 +65,9 @@ namespace  base {
     }
 
     template <int M, int N>
-    void Agent<M,N>::SetStatus(char* status){
-        strcpy(status_, status);
+    void Agent<M,N>::ReadStatus(){
+        *status_stream_ >> buf_;
+        strcpy(status_, buf_);
     }
 
     template <int M, int N>
@@ -70,6 +78,11 @@ namespace  base {
     template <int M, int N>
     Direction Agent<M,N>::GetDesiredDirection() const{
         return desired_direction_;
+    }
+
+    template <int M, int N>
+    void Agent<M,N>::SetStatusStream(std::stringstream* status_stream){
+        status_stream_ = status_stream;
     }
 }
 
