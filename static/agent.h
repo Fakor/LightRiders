@@ -10,14 +10,6 @@ const uint16_t BUFFER_SIZE = 256;
 
 namespace  base {
 
-    struct AgentState{
-        AgentState(Position p, Direction d): pos{p}, dir{d} {}
-        Position pos;
-        Direction dir;
-        bool alive = true;
-    };
-
-
     template <int M, int N>
     class Agent{
     public:
