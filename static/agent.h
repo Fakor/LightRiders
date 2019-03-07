@@ -37,7 +37,7 @@ namespace  base {
         char status_[BOARD_SIZE];
 
         char buf_[BUFFER_SIZE];
-        Direction desired_direction_{Direction::UP};
+        Direction desired_direction_{Action::UP};
         bool first_move_{true};
 
         std::stringstream* status_stream_;

@@ -8,36 +8,44 @@
 #include "../static/GridBoard.h"
 #include "../static/utility.h"
 #include "../static/agent.h"
+#include "../static/connection.h"
 
 using namespace testing;
 
 TEST(GridboardTests, GridBoardConstructor)
 {
-    base::Agent<2,2> a0{{0,1}, '0'};
-    base::Agent<2,2> a1{{1,0}, '1'};
+    base::Connection a0;
+    base::Connection a1;
 
     base::GridBoard<2,2> board(a0, a1);
 
-    board.SendStatus();
+    board.SetStartPosition({0,1}, {1,0});
+
+    board.UpdateStatus();
 
     char expected_status[] = ".10.";
     const char* board_status = board.GetStatus();
-    const char* actual_status_1 = a0.CurrentStatus();
-    const char* actual_status_2 = a1.CurrentStatus();
+    char actual_status_0[5];
+    char actual_status_1[5];
+
+    a0.ReceiveStatus(actual_status_0);
+    a1.ReceiveStatus(actual_status_1);
 
     ASSERT_EQ(strcmp(expected_status, board_status), 0) << expected_status << " != " << board_status;
+    ASSERT_EQ(strcmp(expected_status, actual_status_0), 0) << expected_status << " != " << actual_status_0;
     ASSERT_EQ(strcmp(expected_status, actual_status_1), 0) << expected_status << " != " << actual_status_1;
-    ASSERT_EQ(strcmp(expected_status, actual_status_2), 0) << expected_status << " != " << actual_status_2;
 }
 
 TEST(GridboardTests, AgentSetDirection){
-    base::Agent<3,3> a0{{1,1}, '0'};
-    base::Agent<3,3> a1{{0,0}, '1'};
+    base::Connection a0;
+    base::Connection a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
-    a0.SetDesiredDirection(base::Direction::UP);
-    a1.SetDesiredDirection(base::Direction::DOWN);
+    board.SetStartPosition({1,1}, {0,0});
+
+    a0.SendAction(base::Action::UP);
+    a1.SendAction(base::Action::DOWN);
 
     char expected_status_1[] = "1...0....";
     const char* board_status = board.GetStatus();
@@ -51,8 +59,8 @@ TEST(GridboardTests, AgentSetDirection){
     board_status = board.GetStatus();
     ASSERT_EQ(strcmp(expected_status_2, board_status), 0) << expected_status_2 << " != " << board_status;
 
-    a0.SetDesiredDirection(base::Direction::RIGHT);
-    a1.SetDesiredDirection(base::Direction::UP);
+    a0.SendAction(base::Action::RIGHT);
+    a1.SendAction(base::Action::UP);
 
     round_done = board.PerformTurn();
 
@@ -62,7 +70,7 @@ TEST(GridboardTests, AgentSetDirection){
     board_status = board.GetStatus();
     ASSERT_EQ(strcmp(expected_status_3, board_status), 0) << expected_status_3 << " != " << board_status;
 
-    a1.SetDesiredDirection(base::Direction::RIGHT);
+    a1.SendAction(base::Action::RIGHT);
 
     round_done = board.PerformTurn();
 
@@ -73,19 +81,21 @@ TEST(GridboardTests, AgentSetDirection){
 }
 
 TEST(GridboardTests, BlockedSquare){
-    base::Agent<3,3> a0{{1,1}, '0'};
-    base::Agent<3,3> a1{{0,0}, '1'};
+    base::Connection a0;
+    base::Connection a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
-    a0.SetDesiredDirection(base::Direction::LEFT);
-    a1.SetDesiredDirection(base::Direction::RIGHT);
+    board.SetStartPosition({1,1}, {0,0});
+
+    a0.SendAction(base::Action::LEFT);
+    a1.SendAction(base::Action::RIGHT);
 
     bool round_done = board.PerformTurn();
     ASSERT_FALSE(round_done);
 
-    a0.SetDesiredDirection(base::Direction::DOWN);
-    a1.SetDesiredDirection(base::Direction::DOWN);
+    a0.SendAction(base::Action::DOWN);
+    a1.SendAction(base::Action::DOWN);
 
     round_done = board.PerformTurn();
     ASSERT_TRUE(round_done);
@@ -94,13 +104,15 @@ TEST(GridboardTests, BlockedSquare){
 }
 
 TEST(GridBoardTests, AgentCrashing){
-    base::Agent<3,3> a0{{1,1}, '0'};
-    base::Agent<3,3> a1{{0,1}, '1'};
+    base::Connection a0;
+    base::Connection a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
-    a0.SetDesiredDirection(base::Direction::LEFT);
-    a1.SetDesiredDirection(base::Direction::RIGHT);
+    board.SetStartPosition({1,1}, {0,1});
+
+    a0.SendAction(base::Action::LEFT);
+    a1.SendAction(base::Action::RIGHT);
 
     bool round_done = board.PerformTurn();
     ASSERT_TRUE(round_done);
@@ -109,13 +121,15 @@ TEST(GridBoardTests, AgentCrashing){
 }
 
 TEST(GridBoardTests, AgentCrashing2){
-    base::Agent<3,3> a0{{2,1}, '0'};
-    base::Agent<3,3> a1{{0,1}, '1'};
+    base::Connection a0;
+    base::Connection a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
-    a0.SetDesiredDirection(base::Direction::LEFT);
-    a1.SetDesiredDirection(base::Direction::RIGHT);
+    board.SetStartPosition({2,1}, {0,1});
+
+    a0.SendAction(base::Action::LEFT);
+    a1.SendAction(base::Action::RIGHT);
 
     bool round_done = board.PerformTurn();
     ASSERT_TRUE(round_done);

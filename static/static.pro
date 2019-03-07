@@ -28,7 +28,8 @@ SOURCES +=
 HEADERS += \
     GridBoard.h \
     agent.h \
-    utility.h
+    utility.h \
+    connection.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

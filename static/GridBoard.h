@@ -7,6 +7,7 @@
 
 #include "agent.h"
 #include "utility.h"
+#include "connection.h"
 
 namespace base {
 
@@ -17,13 +18,15 @@ namespace base {
 
         static const uint16_t BOARD_SIZE = N*M;
 
-        GridBoard(Agent<M,N> &a0, Agent<M,N> &a1);
+        GridBoard(Connection &c0, Connection &c1);
         virtual ~GridBoard() = default;
+
+        void SetStartPosition(Position pos0, Position pos1);
 
         char GetSquareValue(Position pos) const;
 
         const char* GetStatus() const;
-        void SendStatus();
+        void UpdateStatus();
         bool PerformTurn();
 
         bool WithinBoarders(Position pos) const;
@@ -35,31 +38,38 @@ namespace base {
 	private:
         char status_[BOARD_SIZE+1];
 
-        Agent<M,N>& a0_;
-        Agent<M,N>& a1_;
-
-        std::stringstream a0_status_stream_;
-        std::stringstream a1_status_stream_;
+        Connection& c0_;
+        Connection& c1_;
 
         AgentState a0_state_;
         AgentState a1_state_;
 
         void SetSquare(Position pos, char value);
-        void UpdateAgentState(AgentState& state, Agent<M,N>& agent);
+        void UpdateAgentState(AgentState& state, Connection& connection);
 	};
 
 
     template<int M, int N>
-    GridBoard<M,N>::GridBoard(Agent<M,N> &a0, Agent<M,N> &a1)
-        : a0_{a0}, a1_{a1}, a0_state_{a0.GetState()}, a1_state_{a1.GetState()}
+    GridBoard<M,N>::GridBoard(Connection &c0, Connection &c1)
+        : c0_{c0}, c1_{c1}
     {
-        memset(status_, '.', BOARD_SIZE);
-        SetSquare(a0_state_.pos, a0_.GetName());
-        SetSquare(a1_state_.pos, a1_.GetName());
-        status_[BOARD_SIZE] = '\0';
-        a0_.SetStatusStream(&a0_status_stream_);
-        a1_.SetStatusStream(&a1_status_stream_);
+        a0_state_.name = '0';
+        a1_state_.name = '1';
 
+        memset(status_, '.', BOARD_SIZE);
+        status_[BOARD_SIZE] = '\0';
+    }
+
+    template<int M, int N>
+    void GridBoard<M,N>::SetStartPosition(Position pos0, Position pos1){
+        a0_state_.pos = pos0;
+        a0_state_.alive = true;
+
+        a1_state_.pos = pos1;
+        a1_state_.alive = true;
+
+        SetSquare(a0_state_.pos, a0_state_.name);
+        SetSquare(a1_state_.pos, a1_state_.name);
     }
 
     template<int M, int N>
@@ -78,17 +88,15 @@ namespace base {
     }
 
     template<int M, int N>
-    void GridBoard<M,N>::SendStatus(){
-        a0_status_stream_ << status_;
-        a1_status_stream_ << status_;
-        a0_.ReadStatus();
-        a1_.ReadStatus();
+    void GridBoard<M,N>::UpdateStatus(){
+        c0_.SendStatus(status_);
+        c1_.SendStatus(status_);
     }
 
     template<int M, int N>
     bool GridBoard<M,N>::PerformTurn(){
-        UpdateAgentState(a0_state_, a0_);
-        UpdateAgentState(a1_state_, a1_);
+        UpdateAgentState(a0_state_, c0_);
+        UpdateAgentState(a1_state_, c1_);
 
         AgentsSameSquare();
 
@@ -114,15 +122,11 @@ namespace base {
     }
 
     template<int M, int N>
-    void GridBoard<M,N>::UpdateAgentState(AgentState& state, Agent<M,N>& agent){
-        if(agent.FirstMove()){
-            state.dir = agent.GetDesiredDirection();
-            agent.FirstMoveDone();
-        } else if(GetOpositeDirection(state.dir) != agent.GetDesiredDirection()){
-            state.dir = agent.GetDesiredDirection();
-        }
+    void GridBoard<M,N>::UpdateAgentState(AgentState& state, Connection& connection){
+        Action action;
+        connection.ReceiveAction(action);
         SetSquare(state.pos, 'x');
-        Position new_square = NewPositionFromDirection(state.pos, state.dir);
+        Position new_square = NewPositionFromAction(state, action);
         if(!WithinBoarders(new_square)){
             state.alive = false;
             return;
@@ -130,7 +134,7 @@ namespace base {
             state.alive = false;
         }
         state.pos = new_square;
-        SetSquare(new_square, agent.GetName());
+        SetSquare(new_square, state.name);
     }
 
 }
