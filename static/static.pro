@@ -29,7 +29,8 @@ HEADERS += \
     GridBoard.h \
     agent.h \
     utility.h \
-    connection.h
+    connection.h \
+    status.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

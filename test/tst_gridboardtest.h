@@ -14,8 +14,8 @@ using namespace testing;
 
 TEST(GridboardTests, GridBoardConstructor)
 {
-    base::Connection a0;
-    base::Connection a1;
+    base::Connection<4> a0;
+    base::Connection<4> a1;
 
     base::GridBoard<2,2> board(a0, a1);
 
@@ -23,22 +23,18 @@ TEST(GridboardTests, GridBoardConstructor)
 
     board.UpdateStatus();
 
-    char expected_status[] = ".10.";
-    const char* board_status = board.GetStatus();
-    char actual_status_0[5];
-    char actual_status_1[5];
+    base::Status<4> expected_status(".10.");
 
-    a0.ReceiveStatus(actual_status_0);
-    a1.ReceiveStatus(actual_status_1);
+    auto board_status = board.GetStatus();
 
-    ASSERT_EQ(strcmp(expected_status, board_status), 0) << expected_status << " != " << board_status;
-    ASSERT_EQ(strcmp(expected_status, actual_status_0), 0) << expected_status << " != " << actual_status_0;
-    ASSERT_EQ(strcmp(expected_status, actual_status_1), 0) << expected_status << " != " << actual_status_1;
+    ASSERT_EQ(expected_status, board_status) << expected_status << " != " << board_status;
+    ASSERT_EQ(expected_status, a0.ReceiveStatus()) << expected_status << " != " << a0.ReceiveStatus();
+    ASSERT_EQ(expected_status, a1.ReceiveStatus()) << expected_status << " != " << a1.ReceiveStatus();
 }
 
 TEST(GridboardTests, AgentSetDirection){
-    base::Connection a0;
-    base::Connection a1;
+    base::Connection<9> a0;
+    base::Connection<9> a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
@@ -47,17 +43,17 @@ TEST(GridboardTests, AgentSetDirection){
     a0.SendAction(base::Action::UP);
     a1.SendAction(base::Action::DOWN);
 
-    char expected_status_1[] = "1...0....";
-    const char* board_status = board.GetStatus();
-    ASSERT_EQ(strcmp(expected_status_1, board_status), 0) << expected_status_1 << " != " << board_status;
+    base::Status<9> expected_status_1("1...0....");
+    auto board_status = board.GetStatus();
+    ASSERT_EQ(expected_status_1, board_status) << expected_status_1 << " != " << board_status;
 
     bool round_done = board.PerformTurn();
 
     ASSERT_FALSE(round_done);
 
-    char expected_status_2[] = "x0.1x....";
+    base::Status<9> expected_status_2("x0.1x....");
     board_status = board.GetStatus();
-    ASSERT_EQ(strcmp(expected_status_2, board_status), 0) << expected_status_2 << " != " << board_status;
+    ASSERT_EQ(expected_status_2, board_status) << expected_status_2 << " != " << board_status;
 
     a0.SendAction(base::Action::RIGHT);
     a1.SendAction(base::Action::UP);
@@ -66,9 +62,9 @@ TEST(GridboardTests, AgentSetDirection){
 
     ASSERT_FALSE(round_done);
 
-    char expected_status_3[] = "xx0xx.1..";
+    base::Status<9> expected_status_3("xx0xx.1..");
     board_status = board.GetStatus();
-    ASSERT_EQ(strcmp(expected_status_3, board_status), 0) << expected_status_3 << " != " << board_status;
+    ASSERT_EQ(expected_status_3, board_status) << expected_status_3 << " != " << board_status;
 
     a1.SendAction(base::Action::RIGHT);
 
@@ -81,8 +77,8 @@ TEST(GridboardTests, AgentSetDirection){
 }
 
 TEST(GridboardTests, BlockedSquare){
-    base::Connection a0;
-    base::Connection a1;
+    base::Connection<9> a0;
+    base::Connection<9> a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
@@ -104,8 +100,8 @@ TEST(GridboardTests, BlockedSquare){
 }
 
 TEST(GridBoardTests, AgentCrashing){
-    base::Connection a0;
-    base::Connection a1;
+    base::Connection<9> a0;
+    base::Connection<9> a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
@@ -121,8 +117,8 @@ TEST(GridBoardTests, AgentCrashing){
 }
 
 TEST(GridBoardTests, AgentCrashing2){
-    base::Connection a0;
-    base::Connection a1;
+    base::Connection<9> a0;
+    base::Connection<9> a1;
 
     base::GridBoard<3,3> board(a0, a1);
 
@@ -136,3 +132,4 @@ TEST(GridBoardTests, AgentCrashing2){
     ASSERT_FALSE(board.Agent0Alive());
     ASSERT_FALSE(board.Agent1Alive());
 }
+

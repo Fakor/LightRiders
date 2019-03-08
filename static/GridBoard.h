@@ -3,29 +3,34 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <sstream>
+
+#include <array>
 
 #include "agent.h"
 #include "utility.h"
 #include "connection.h"
+#include "status.h"
 
 namespace base {
+
+
 
     template <int M, int N>
 	class GridBoard
 	{
 	public:
-
         static const uint16_t BOARD_SIZE = N*M;
+        using ConnectionT = Connection<BOARD_SIZE>;
+        using StatusT = Status<BOARD_SIZE>;
 
-        GridBoard(Connection &c0, Connection &c1);
+        GridBoard(ConnectionT &c0, ConnectionT &c1);
         virtual ~GridBoard() = default;
 
         void SetStartPosition(Position pos0, Position pos1);
 
         char GetSquareValue(Position pos) const;
 
-        const char* GetStatus() const;
+        StatusT GetStatus() const {return status_;}
         void UpdateStatus();
         bool PerformTurn();
 
@@ -36,28 +41,25 @@ namespace base {
         bool Agent0Alive() const {return a0_state_.alive;}
         bool Agent1Alive() const {return a1_state_.alive;}
 	private:
-        char status_[BOARD_SIZE+1];
+        StatusT status_;
 
-        Connection& c0_;
-        Connection& c1_;
+        ConnectionT& c0_;
+        ConnectionT& c1_;
 
         AgentState a0_state_;
         AgentState a1_state_;
 
         void SetSquare(Position pos, char value);
-        void UpdateAgentState(AgentState& state, Connection& connection);
+        void UpdateAgentState(AgentState& state, ConnectionT& connection);
 	};
 
 
     template<int M, int N>
-    GridBoard<M,N>::GridBoard(Connection &c0, Connection &c1)
+    GridBoard<M,N>::GridBoard(ConnectionT &c0, ConnectionT &c1)
         : c0_{c0}, c1_{c1}
     {
         a0_state_.name = '0';
         a1_state_.name = '1';
-
-        memset(status_, '.', BOARD_SIZE);
-        status_[BOARD_SIZE] = '\0';
     }
 
     template<int M, int N>
@@ -74,17 +76,12 @@ namespace base {
 
     template<int M, int N>
     char GridBoard<M,N>::GetSquareValue(Position pos) const{
-        return status_[pos.Y()*N + pos.X()];
+        return status_.GetElement(pos.Y()*N + pos.X());
     }
 
     template<int M, int N>
     void GridBoard<M,N>::SetSquare(Position pos, char value){
-        status_[pos.Y()*N + pos.X()] = value;
-    }
-
-    template<int M, int N>
-    const char* GridBoard<M,N>::GetStatus() const{
-        return status_;
+        status_.SetElement(pos.Y()*N + pos.X(), value);
     }
 
     template<int M, int N>
@@ -122,7 +119,7 @@ namespace base {
     }
 
     template<int M, int N>
-    void GridBoard<M,N>::UpdateAgentState(AgentState& state, Connection& connection){
+    void GridBoard<M,N>::UpdateAgentState(AgentState& state, ConnectionT& connection){
         Action action;
         connection.ReceiveAction(action);
         SetSquare(state.pos, 'x');
