@@ -23,7 +23,7 @@ namespace base {
         using ConnectionT = Connection<BOARD_SIZE>;
         using StatusT = Status<BOARD_SIZE>;
 
-        GridBoard(ConnectionT &c0, ConnectionT &c1);
+        GridBoard();
         virtual ~GridBoard() = default;
 
         void SetStartPosition(Position pos0, Position pos1);
@@ -40,11 +40,14 @@ namespace base {
 
         bool Agent0Alive() const {return a0_state_.alive;}
         bool Agent1Alive() const {return a1_state_.alive;}
+
+        ConnectionT* GetConnection0() {return &c0_;}
+        ConnectionT* GetConnection1() {return &c1_;}
 	private:
         StatusT status_;
 
-        ConnectionT& c0_;
-        ConnectionT& c1_;
+        ConnectionT c0_;
+        ConnectionT c1_;
 
         AgentState a0_state_;
         AgentState a1_state_;
@@ -55,8 +58,7 @@ namespace base {
 
 
     template<int M, int N>
-    GridBoard<M,N>::GridBoard(ConnectionT &c0, ConnectionT &c1)
-        : c0_{c0}, c1_{c1}
+    GridBoard<M,N>::GridBoard()
     {
         a0_state_.name = '0';
         a1_state_.name = '1';
