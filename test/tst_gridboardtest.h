@@ -108,7 +108,7 @@ TEST(GridboardTests, BlockedSquare){
     ASSERT_FALSE(board.Agent1Alive());
 }
 
-TEST(GridBoardTests, AgentCrashing){
+TEST(GridboardTests, AgentCrashing){
     base::Agent<9> a0;
     base::Agent<9> a1;
 
@@ -128,7 +128,7 @@ TEST(GridBoardTests, AgentCrashing){
     ASSERT_FALSE(board.Agent1Alive());
 }
 
-TEST(GridBoardTests, AgentCrashing2){
+TEST(GridboardTests, AgentCrashing2){
     base::Agent<9> a0;
     base::Agent<9> a1;
 

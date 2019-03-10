@@ -1,4 +1,5 @@
 #include "tst_gridboardtest.h"
+#include "tst_enginetest.h"
 
 #include <gtest/gtest.h>
 

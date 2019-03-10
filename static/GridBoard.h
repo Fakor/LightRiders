@@ -26,6 +26,9 @@ namespace base {
         GridBoard();
         virtual ~GridBoard() = default;
 
+        int GetWidth() const {return N;}
+        int GetHeight() const {return M;}
+
         void SetStartPosition(Position pos0, Position pos1);
 
         char GetSquareValue(Position pos) const;

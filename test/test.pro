@@ -7,7 +7,8 @@ CONFIG += thread
 CONFIG -= qt
 
 HEADERS += \
-        tst_gridboardtest.h
+        tst_gridboardtest.h \
+    tst_enginetest.h
 
 SOURCES += \
         main.cpp
