@@ -9,6 +9,7 @@
 #include "../static/utility.h"
 #include "../static/agent.h"
 #include "../static/connection.h"
+#include "../static/standard_definitions.h"
 
 using namespace testing;
 
@@ -146,5 +147,12 @@ TEST(GridboardTests, AgentCrashing2){
     ASSERT_TRUE(round_done);
     ASSERT_FALSE(board.Agent0Alive());
     ASSERT_FALSE(board.Agent1Alive());
+}
+
+TEST(GridboardTests, StandardBoardSize){
+    standard::GridBoard board;
+
+    ASSERT_EQ(board.GetWidth(), 16);
+    ASSERT_EQ(board.GetHeight(), 16);
 }
 
