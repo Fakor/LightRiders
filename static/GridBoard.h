@@ -20,8 +20,8 @@ namespace base {
 	{
 	public:
         static const uint16_t BOARD_SIZE = N*M;
-        using ConnectionT = Connection<BOARD_SIZE>;
-        using StatusT = Status<BOARD_SIZE>;
+        using ConnectionT = Connection<M,N>;
+        using StatusT = Status<M,N>;
 
         GridBoard();
         virtual ~GridBoard() = default;

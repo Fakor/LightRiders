@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string.h>
 #include <stdexcept>
+#include <ostream>
 
 namespace base {
 
@@ -25,6 +26,11 @@ namespace base {
 
     bool operator!=(const Position& lhs, const Position& rhs){
         return !(lhs==rhs);
+    }
+
+    std::ostream& operator<<(std::ostream& out, const Position& position){
+        out << "[" << position.X() << "," << position.Y() << "]";
+        return out;
     }
 
     enum class Action {

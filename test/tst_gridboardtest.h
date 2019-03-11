@@ -15,8 +15,8 @@ using namespace testing;
 
 TEST(GridboardTests, GridBoardConstructor)
 {
-    base::Agent<4> a0{};
-    base::Agent<4> a1{};
+    base::Agent<2,2> a0{};
+    base::Agent<2,2> a1{};
 
     base::GridBoard<2,2> board;
 
@@ -27,7 +27,7 @@ TEST(GridboardTests, GridBoardConstructor)
 
     board.UpdateStatus();
 
-    base::Status<4> expected_status(".10.");
+    base::Status<2,2> expected_status(".10.");
 
     auto board_status = board.GetStatus();
 
@@ -37,8 +37,8 @@ TEST(GridboardTests, GridBoardConstructor)
 }
 
 TEST(GridboardTests, AgentSetDirection){
-    base::Agent<9> a0;
-    base::Agent<9> a1;
+    base::Agent<3,3> a0;
+    base::Agent<3,3> a1;
 
     base::GridBoard<3,3> board{};
 
@@ -50,7 +50,7 @@ TEST(GridboardTests, AgentSetDirection){
     a0.SetAction(base::Action::UP);
     a1.SetAction(base::Action::DOWN);
 
-    base::Status<9> expected_status_1("1...0....");
+    base::Status<3,3> expected_status_1("1...0....");
     auto board_status = board.GetStatus();
     ASSERT_EQ(expected_status_1, board_status) << expected_status_1 << " != " << board_status;
 
@@ -58,7 +58,7 @@ TEST(GridboardTests, AgentSetDirection){
 
     ASSERT_FALSE(round_done);
 
-    base::Status<9> expected_status_2("x0.1x....");
+    base::Status<3,3> expected_status_2("x0.1x....");
     board_status = board.GetStatus();
     ASSERT_EQ(expected_status_2, board_status) << expected_status_2 << " != " << board_status;
 
@@ -69,7 +69,7 @@ TEST(GridboardTests, AgentSetDirection){
 
     ASSERT_FALSE(round_done);
 
-    base::Status<9> expected_status_3("xx0xx.1..");
+    base::Status<3,3> expected_status_3("xx0xx.1..");
     board_status = board.GetStatus();
     ASSERT_EQ(expected_status_3, board_status) << expected_status_3 << " != " << board_status;
 
@@ -84,8 +84,8 @@ TEST(GridboardTests, AgentSetDirection){
 }
 
 TEST(GridboardTests, BlockedSquare){
-    base::Agent<9> a0;
-    base::Agent<9> a1;
+    base::Agent<3,3> a0;
+    base::Agent<3,3> a1;
 
     base::GridBoard<3,3> board{};
 
@@ -110,8 +110,8 @@ TEST(GridboardTests, BlockedSquare){
 }
 
 TEST(GridboardTests, AgentCrashing){
-    base::Agent<9> a0;
-    base::Agent<9> a1;
+    base::Agent<3,3> a0;
+    base::Agent<3,3> a1;
 
     base::GridBoard<3,3> board{};
 
@@ -130,8 +130,8 @@ TEST(GridboardTests, AgentCrashing){
 }
 
 TEST(GridboardTests, AgentCrashing2){
-    base::Agent<9> a0;
-    base::Agent<9> a1;
+    base::Agent<3,3> a0;
+    base::Agent<3,3> a1;
 
     base::GridBoard<3,3> board{};
 

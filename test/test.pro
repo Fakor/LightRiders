@@ -8,7 +8,8 @@ CONFIG -= qt
 
 HEADERS += \
         tst_gridboardtest.h \
-    tst_enginetest.h
+    tst_enginetest.h \
+    tst_agenttest.h
 
 SOURCES += \
         main.cpp

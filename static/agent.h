@@ -10,18 +10,18 @@
 
 namespace  base {
 
-    template<int N>
+    template<int M, int N>
     class Agent{
     public:
         Agent() {}
 
         void SetAction(Action action) {connection_->SendAction(action);}
 
-        void Connect(Connection<N>* connection) {connection_ = connection;}
+        void Connect(Connection<M,N>* connection) {connection_ = connection;}
 
-        Status<N> CurrentStatus() const {return connection_->ReceiveStatus();}
+        Status<M,N> CurrentStatus() const {return connection_->ReceiveStatus();}
     private:
-        Connection<N>* connection_;
+        Connection<M,N>* connection_;
     };
 
 }
