@@ -32,7 +32,8 @@ HEADERS += \
     connection.h \
     status.h \
     standard_definitions.h \
-    simple_agents.h
+    simple_agents.h \
+    basic_help.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

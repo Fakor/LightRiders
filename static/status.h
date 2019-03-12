@@ -27,6 +27,7 @@ namespace base {
         Status(std::string init);
         void SetElement(int index, char value);
         char GetElement(int index) const;
+        char GetElement(Position pos) const;
 
         Position GetPosition(char agent_name) const;
 
@@ -74,6 +75,12 @@ namespace base {
 
     template <int M, int N>
     char Status<M,N>::GetElement(int index) const{
+        return status_[index];
+    }
+
+    template <int M, int N>
+    char Status<M,N>::GetElement(Position pos) const{
+        int index = pos.Y()*N + pos.X();
         return status_[index];
     }
 
