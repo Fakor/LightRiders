@@ -15,6 +15,8 @@ namespace  base {
     public:
         Agent() {}
 
+        virtual void ChooseAction() {}
+
         void SetAction(Action action) {connection_->SendAction(action);}
 
         void Connect(Connection<M,N>* connection) {connection_ = connection;}
