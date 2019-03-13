@@ -76,4 +76,18 @@ TEST(AgentTests, PositionInDirection){
     ASSERT_EQ(base::Position(2,1), base::PositionInDirection(pos, base::Direction::RIGHT));
 }
 
+TEST(AgentTests, DirectionSafe){
+    base::Status<3,3> status("x..01..x.");
+
+    ASSERT_FALSE(help::DirectionSafe(status, '0', base::Direction::UP));
+    ASSERT_TRUE(help::DirectionSafe(status, '0', base::Direction::DOWN));
+    ASSERT_FALSE(help::DirectionSafe(status, '0', base::Direction::LEFT));
+    ASSERT_FALSE(help::DirectionSafe(status, '0', base::Direction::RIGHT));
+
+    ASSERT_TRUE(help::DirectionSafe(status, '1', base::Direction::UP));
+    ASSERT_FALSE(help::DirectionSafe(status, '1', base::Direction::DOWN));
+    ASSERT_FALSE(help::DirectionSafe(status, '1', base::Direction::LEFT));
+    ASSERT_TRUE(help::DirectionSafe(status, '1', base::Direction::RIGHT));
+}
+
 #endif // TST_AGENTTEST_H

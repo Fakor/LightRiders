@@ -16,6 +16,14 @@ bool PositionSafe(base::Status<M,N> status, base::Position position){
 
 
 
+template<int M, int N>
+bool DirectionSafe(base::Status<M,N> status, char name, base::Direction direction){
+    base::Position current_position = status.GetPosition(name);
+    base::Position new_position = base::PositionInDirection(current_position, direction);
+    return PositionSafe(status, new_position);
+}
+
+
 }
 
 
