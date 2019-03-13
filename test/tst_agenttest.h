@@ -67,4 +67,13 @@ TEST(AgentTests, SquareSafe){
     ASSERT_FALSE(help::PositionSafe(status, {2,5}));
 }
 
+TEST(AgentTests, PositionInDirection){
+    base::Position pos(1,1);
+
+    ASSERT_EQ(base::Position(1,0), base::PositionInDirection(pos, base::Direction::UP));
+    ASSERT_EQ(base::Position(1,2), base::PositionInDirection(pos, base::Direction::DOWN));
+    ASSERT_EQ(base::Position(0,1), base::PositionInDirection(pos, base::Direction::LEFT));
+    ASSERT_EQ(base::Position(2,1), base::PositionInDirection(pos, base::Direction::RIGHT));
+}
+
 #endif // TST_AGENTTEST_H

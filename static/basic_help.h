@@ -14,6 +14,8 @@ bool PositionSafe(base::Status<M,N> status, base::Position position){
     return status.GetElement(position) == '.';
 }
 
+
+
 }
 
 

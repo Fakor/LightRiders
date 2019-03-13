@@ -56,6 +56,18 @@ namespace base {
         bool first_move{true};
     };
 
+    Position PositionInDirection(base::Position position, base::Direction direction){
+        if(direction == base::Direction::UP){
+            return Position(position.X(), position.Y()-1);
+        } else if(direction == base::Direction::DOWN){
+            return Position(position.X(), position.Y()+1);
+        } if(direction == base::Direction::RIGHT){
+            return Position(position.X()+1, position.Y());
+        } else {
+            return Position(position.X()-1, position.Y());
+        }
+    }
+
     Direction GetOpositeDirection(Direction dir){
         if(dir == Direction::UP){
             return Direction::DOWN;
@@ -92,15 +104,7 @@ namespace base {
 
     Position NewPositionFromAction(AgentState& state, Action action){
         SetDirectionFromAction(action, state);
-        if(state.dir == Direction::UP){
-            return Position(state.pos.X(), state.pos.Y()-1);
-        } else if(state.dir == Direction::DOWN){
-            return Position(state.pos.X(), state.pos.Y()+1);
-        } if(state.dir == Direction::RIGHT){
-            return Position(state.pos.X()+1, state.pos.Y());
-        } else {
-            return Position(state.pos.X()-1, state.pos.Y());
-        }
+        return PositionInDirection(state.pos, state.dir);
     }
 
     char* ActionToString(const Action& action, char *buf){
