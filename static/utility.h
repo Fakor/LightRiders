@@ -80,6 +80,21 @@ namespace base {
         }
     }
 
+    Direction DirectionFromAction(Action action, Direction default_dir){
+        if(action == Action::UP){
+            return Direction::UP;
+        } else if (action == Action::DOWN) {
+            return Direction::DOWN;
+        } else if (action == Action::RIGHT){
+            return Direction::RIGHT;
+        } else if (action == Action::LEFT){
+            return Direction::LEFT;
+        } else {
+            return default_dir;
+        }
+
+    }
+
     void SetDirectionFromAction(Action action, AgentState& state){
         Direction desired_direction;
         if(action == Action::UP){

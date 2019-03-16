@@ -9,25 +9,23 @@ namespace base{
     template<int M, int N>
     class Connection{
     public:
-        void SendStatus(Status<M,N> new_status);
+        Connection(char name, Status<M,N>* status): name_{name}, status_{status} {}
+
         Status<M,N> ReceiveStatus();
 
         bool SendAction(Action action);
         bool ReceiveAction(Action& action);
-    private:
-        Status<M,N> status_;
 
+        Position GetPosition() const;
+    private:
+        char name_;
+        Status<M,N>* status_;
         Action action_;
     };
 
     template<int M, int N>
-    void Connection<M,N>::SendStatus(Status<M,N> new_status){
-        status_ = new_status;
-    }
-
-    template<int M, int N>
     Status<M,N> Connection<M,N>::ReceiveStatus(){
-        return status_;
+        return *status_;
     }
 
     template<int M, int N>
@@ -40,6 +38,11 @@ namespace base{
     bool Connection<M,N>::ReceiveAction(Action &action){
         action = action_;
         return true;
+    }
+
+    template<int M, int N>
+    Position Connection<M,N>::GetPosition() const{
+        return status_->GetPosition(name_);
     }
 }
 

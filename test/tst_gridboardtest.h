@@ -25,8 +25,6 @@ TEST(GridboardTests, GridBoardConstructor)
 
     board.SetStartPosition({0,1}, {1,0});
 
-    board.UpdateStatus();
-
     base::Status<2,2> expected_status(".10.");
 
     auto board_status = board.GetStatus();

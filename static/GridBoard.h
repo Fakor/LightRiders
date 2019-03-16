@@ -62,6 +62,7 @@ namespace base {
 
     template<int M, int N>
     GridBoard<M,N>::GridBoard()
+        : c0_{'0', &status_}, c1_{'1', &status_}
     {
         a0_state_.name = '0';
         a1_state_.name = '1';
@@ -87,12 +88,6 @@ namespace base {
     template<int M, int N>
     void GridBoard<M,N>::SetSquare(Position pos, char value){
         status_.SetElement(pos.Y()*N + pos.X(), value);
-    }
-
-    template<int M, int N>
-    void GridBoard<M,N>::UpdateStatus(){
-        c0_.SendStatus(status_);
-        c1_.SendStatus(status_);
     }
 
     template<int M, int N>

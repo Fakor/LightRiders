@@ -3,6 +3,7 @@
 
 #include "utility.h"
 #include "agent.h"
+#include "basic_help.h"
 
 namespace agents{
 
@@ -15,7 +16,27 @@ namespace agents{
         base::Action action_;
     };
 
+    template <int M, int N>
+    class SafeClockwiseBias: public base::Agent<M,N>{
+    public:
+        SafeClockwiseBias(base::Action bias): bias_{bias} {}
+        void ChooseAction() override;
+    private:
+        base::Action bias_;
+    };
 
+    template <int M, int N>
+    void SafeClockwiseBias<M,N>::ChooseAction(){
+        base::Action candidate = bias_;
+        for (int i = 0; i < 4; ++i) {
+            base::Direction dir_candidate = base::DirectionFromAction(candidate, base::Direction::UP);
+            if(help::DirectionSafe(this->CurrentStatus(), this->GetPosition(), dir_candidate)){
+                this->SetAction(candidate);
+                return;
+            }
+            candidate = help::NextActionClockwise(candidate);
+        }
+    }
 }
 
 #endif // SIMPLE_AGENTS_H

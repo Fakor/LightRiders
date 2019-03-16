@@ -21,6 +21,7 @@ namespace  base {
 
         void Connect(Connection<M,N>* connection) {connection_ = connection;}
 
+        Position GetPosition() const {return connection_->GetPosition();}
         Status<M,N> CurrentStatus() const {return connection_->ReceiveStatus();}
     private:
         Connection<M,N>* connection_;

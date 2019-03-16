@@ -23,6 +23,26 @@ bool DirectionSafe(base::Status<M,N> status, char name, base::Direction directio
     return PositionSafe(status, new_position);
 }
 
+template<int M, int N>
+bool DirectionSafe(base::Status<M,N> status, base::Position position, base::Direction direction){
+    base::Position new_position = base::PositionInDirection(position, direction);
+    return PositionSafe(status, new_position);
+}
+
+base::Action NextActionClockwise(base::Action direction){
+    if(direction == base::Action::UP){
+        return base::Action::RIGHT;
+    } else if(direction == base::Action::RIGHT){
+        return base::Action::DOWN;
+    } else if(direction == base::Action::DOWN){
+        return base::Action::LEFT;
+    } else if(direction == base::Action::LEFT){
+        return base::Action::UP;
+    } else {
+        return base::Action::UP;
+    }
+}
+
 
 }
 
