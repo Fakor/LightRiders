@@ -1,5 +1,4 @@
-#ifndef AGENT_H
-#define AGENT_H
+#pragma once
 
 #include <sstream>
 #include <thread>
@@ -28,7 +27,3 @@ namespace  base {
     };
 
 }
-
-
-
-#endif // AGENT_H

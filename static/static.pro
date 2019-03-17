@@ -23,7 +23,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES +=
+SOURCES += \
+    engine.cpp \
+    utility.cpp \
+    basic_help.cpp
 
 HEADERS += \
     GridBoard.h \
@@ -31,9 +34,10 @@ HEADERS += \
     utility.h \
     connection.h \
     status.h \
-    standard_definitions.h \
     simple_agents.h \
-    basic_help.h
+    basic_help.h \
+    standard_definitions.h \
+    engine.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

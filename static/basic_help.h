@@ -6,6 +6,8 @@
 
 namespace help {
 
+base::Action NextActionClockwise(base::Action direction);
+
 template<int M, int N>
 bool PositionSafe(base::Status<M,N> status, base::Position position){
     if(position.X() < 0 || position.X() >= N || position.Y() < 0 || position.Y() >= M){
@@ -29,19 +31,7 @@ bool DirectionSafe(base::Status<M,N> status, base::Position position, base::Dire
     return PositionSafe(status, new_position);
 }
 
-base::Action NextActionClockwise(base::Action direction){
-    if(direction == base::Action::UP){
-        return base::Action::RIGHT;
-    } else if(direction == base::Action::RIGHT){
-        return base::Action::DOWN;
-    } else if(direction == base::Action::DOWN){
-        return base::Action::LEFT;
-    } else if(direction == base::Action::LEFT){
-        return base::Action::UP;
-    } else {
-        return base::Action::UP;
-    }
-}
+base::Action NextActionClockwise(base::Action direction);
 
 
 }
