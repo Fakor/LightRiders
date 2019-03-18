@@ -12,6 +12,7 @@ namespace standard {
         Engine(Agent_S* a0, Agent_S* a1);
 
         void SetLeftSideStartPosition(base::Position a0_start_position);
+        void PerformTurn();
     private:
         Agent_S* a0_;
         Agent_S* a1_;

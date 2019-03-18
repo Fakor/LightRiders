@@ -22,4 +22,10 @@ namespace standard {
         board_.SetStartPosition(a0_start_position, a1_start_position);
     }
 
+    void Engine::PerformTurn(){
+        a0_->ChooseAction();
+        a1_->ChooseAction();
+        board_.PerformTurn();
+    }
+
 }

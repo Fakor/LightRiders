@@ -25,7 +25,7 @@ TEST(StandardEngineTest, StartPositions){
     ASSERT_EQ(base::Position(12,5), a1.GetPosition());
 }
 
-TEST(StandardEngineTest, TestBadStartPositions){
+TEST(StandardEngineTest, BadStartPositions){
     standard::SameCommandAgent_S a0(base::Action::UP);
     standard::SameCommandAgent_S a1(base::Action::DOWN);
 
@@ -35,6 +35,20 @@ TEST(StandardEngineTest, TestBadStartPositions){
     ASSERT_THROW(engine.SetLeftSideStartPosition({7,5}), std::invalid_argument);
     ASSERT_THROW(engine.SetLeftSideStartPosition({6,0}), std::invalid_argument);
     ASSERT_THROW(engine.SetLeftSideStartPosition({6,15}), std::invalid_argument);
+}
+
+TEST(StandardEngineTest, PerformTurn){
+    standard::SameCommandAgent_S a0(base::Action::UP);
+    standard::SameCommandAgent_S a1(base::Action::DOWN);
+
+    standard::Engine engine(&a0, &a1);
+
+    engine.SetLeftSideStartPosition({3,5});
+
+    engine.PerformTurn();
+
+    ASSERT_EQ(base::Position(3,4), a0.GetPosition());
+    ASSERT_EQ(base::Position(12,6), a1.GetPosition());
 }
 
 
