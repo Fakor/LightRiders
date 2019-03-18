@@ -15,6 +15,10 @@ namespace base {
 
         int16_t X() const {return x_;}
         int16_t Y() const {return y_;}
+
+        std::string ToString() const{
+            return "[" + std::to_string(x_) + "," + std::to_string(y_) + "]";
+        }
     private:
         int16_t x_;
         int16_t y_;

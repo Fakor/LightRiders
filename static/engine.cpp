@@ -10,6 +10,14 @@ namespace standard {
     }
 
     void Engine::SetLeftSideStartPosition(base::Position a0_start_position){
+        if(     a0_start_position.X() < 1 ||
+                a0_start_position.X() > 6 ||
+                a0_start_position.Y() < 1 ||
+                a0_start_position.Y() > 14){
+
+            std::string error_message = a0_start_position.ToString() + + " not a valid start position!";
+            throw std::invalid_argument(error_message);
+        }
         base::Position a1_start_position(WIDTH-1-a0_start_position.X(), a0_start_position.Y());
         board_.SetStartPosition(a0_start_position, a1_start_position);
     }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "standard_definitions.h"
 
 namespace standard {
