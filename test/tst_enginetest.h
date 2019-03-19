@@ -51,5 +51,20 @@ TEST(StandardEngineTest, PerformTurn){
     ASSERT_EQ(base::Position(12,6), a1.GetPosition());
 }
 
+TEST(StandardEngineTest, PerformRound){
+    standard::SameCommandAgent_S a0(base::Action::LEFT);
+    standard::SafeClockwiseBias_S a1(base::Action::DOWN);
+
+    standard::Engine engine(&a0, &a1);
+
+    engine.SetLeftSideStartPosition({3,5});
+
+    int turns = engine.PerformRound();
+
+    ASSERT_EQ(4, turns);
+    ASSERT_EQ(engine.A0Wins(), 0);
+    ASSERT_EQ(engine.A1Wins(), 1);
+}
+
 
 #endif // TST_ENGINETEST_H

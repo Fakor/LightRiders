@@ -11,6 +11,7 @@ namespace standard {
 
     using Agent_S = base::Agent<HEIGHT, WIDTH>;
     using SameCommandAgent_S = agents::SameCommandAgent<HEIGHT, WIDTH>;
+    using SafeClockwiseBias_S = agents::SafeClockwiseBias<HEIGHT, WIDTH>;
     using GridBoard_S = base::GridBoard<HEIGHT, WIDTH>;
     using Status_S = base::Status<HEIGHT, WIDTH>;
 }

@@ -28,4 +28,26 @@ namespace standard {
         board_.PerformTurn();
     }
 
+    int Engine::PerformRound(){
+        int i = 0;
+        while(board_.Agent0Alive() && board_.Agent1Alive()){
+            ++i;
+            PerformTurn();
+        }
+        if(board_.Agent0Alive() && !board_.Agent1Alive()){
+            ++a0_wins_;
+        } else if(!board_.Agent0Alive() && board_.Agent1Alive()){
+            ++a1_wins_;
+        }
+        return i;
+    }
+
+    int Engine::A0Wins() const{
+        return a0_wins_;
+    }
+
+    int Engine::A1Wins() const{
+        return a1_wins_;
+    }
+
 }
