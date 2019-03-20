@@ -29,6 +29,7 @@ namespace base {
         char GetElement(int index) const;
         char GetElement(Position pos) const;
 
+        void SetPosition(Position pos, char name);
         Position GetPosition(char agent_name) const;
 
         friend bool operator==<M,N>(const Status<M,N>& lhs, const Status<M,N>& rhs);
@@ -82,6 +83,11 @@ namespace base {
     char Status<M,N>::GetElement(Position pos) const{
         int index = pos.Y()*N + pos.X();
         return status_[index];
+    }
+
+    template<int M, int N>
+    void Status<M,N>::SetPosition(Position pos, char name){
+        status_[pos.Y()*N + pos.X()] = name;
     }
 
     template <int M, int N>

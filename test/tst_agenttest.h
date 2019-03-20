@@ -28,7 +28,7 @@ TEST(AgentTests, AgentGetPosition){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({0,1}, {1,0});
+    board.Reset({0,1}, {1,0});
 
     ASSERT_EQ(base::Position(0,1), a0.GetPosition());
     ASSERT_EQ(base::Position(1,0), a1.GetPosition());
@@ -43,7 +43,7 @@ TEST(AgentTests, SameCommandAgent){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({2,2}, {0,2});
+    board.Reset({2,2}, {0,2});
 
     a0.ChooseAction();
     a1.ChooseAction();
@@ -114,7 +114,7 @@ TEST(AgentTests, SafeClockwiseBias){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({1,1}, {0,2});
+    board.Reset({1,1}, {0,2});
 
     a0.ChooseAction();
     a1.ChooseAction();

@@ -11,12 +11,16 @@ namespace standard {
     public:
         Engine(Agent_S* a0, Agent_S* a1);
 
-        void SetLeftSideStartPosition(base::Position a0_start_position);
+        void Reset(base::Position a0_start_position);
         void PerformTurn();
         int PerformRound();
 
         int A0Wins() const;
         int A1Wins() const;
+
+        void Reset();
+
+        Status_S GetStatus() const;
     private:
         Agent_S* a0_;
         Agent_S* a1_;

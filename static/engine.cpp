@@ -9,7 +9,7 @@ namespace standard {
         a1_->Connect(board_.GetConnection1());
     }
 
-    void Engine::SetLeftSideStartPosition(base::Position a0_start_position){
+    void Engine::Reset(base::Position a0_start_position){
         if(     a0_start_position.X() < 1 ||
                 a0_start_position.X() > 6 ||
                 a0_start_position.Y() < 1 ||
@@ -19,7 +19,7 @@ namespace standard {
             throw std::invalid_argument(error_message);
         }
         base::Position a1_start_position(WIDTH-1-a0_start_position.X(), a0_start_position.Y());
-        board_.SetStartPosition(a0_start_position, a1_start_position);
+        board_.Reset(a0_start_position, a1_start_position);
     }
 
     void Engine::PerformTurn(){
@@ -48,6 +48,10 @@ namespace standard {
 
     int Engine::A1Wins() const{
         return a1_wins_;
+    }
+
+    Status_S Engine::GetStatus() const{
+        return board_.GetStatus();
     }
 
 }

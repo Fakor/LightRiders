@@ -22,7 +22,7 @@ TEST(GridboardTests, GridBoardConstructor)
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({0,1}, {1,0});
+    board.Reset({0,1}, {1,0});
 
     base::Status<2,2> expected_status(".10.");
 
@@ -42,7 +42,7 @@ TEST(GridboardTests, AgentSetDirection){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({1,1}, {0,0});
+    board.Reset({1,1}, {0,0});
 
     a0.SetAction(base::Action::UP);
     a1.SetAction(base::Action::DOWN);
@@ -89,7 +89,7 @@ TEST(GridboardTests, BlockedSquare){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({1,1}, {0,0});
+    board.Reset({1,1}, {0,0});
 
     a0.SetAction(base::Action::LEFT);
     a1.SetAction(base::Action::RIGHT);
@@ -115,7 +115,7 @@ TEST(GridboardTests, AgentCrashing){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({1,1}, {0,1});
+    board.Reset({1,1}, {0,1});
 
     a0.SetAction(base::Action::LEFT);
     a1.SetAction(base::Action::RIGHT);
@@ -135,7 +135,7 @@ TEST(GridboardTests, AgentCrashing2){
     a0.Connect(board.GetConnection0());
     a1.Connect(board.GetConnection1());
 
-    board.SetStartPosition({2,1}, {0,1});
+    board.Reset({2,1}, {0,1});
 
     a0.SetAction(base::Action::LEFT);
     a1.SetAction(base::Action::RIGHT);

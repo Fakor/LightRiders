@@ -29,7 +29,7 @@ namespace base {
         int GetWidth() const {return N;}
         int GetHeight() const {return M;}
 
-        void SetStartPosition(Position pos0, Position pos1);
+        void Reset(Position pos0, Position pos1);
 
         char GetSquareValue(Position pos) const;
 
@@ -69,12 +69,14 @@ namespace base {
     }
 
     template<int M, int N>
-    void GridBoard<M,N>::SetStartPosition(Position pos0, Position pos1){
+    void GridBoard<M,N>::Reset(Position pos0, Position pos1){
         a0_state_.pos = pos0;
         a0_state_.alive = true;
 
         a1_state_.pos = pos1;
         a1_state_.alive = true;
+
+        status_ = Status<M,N>();
 
         SetSquare(a0_state_.pos, a0_state_.name);
         SetSquare(a1_state_.pos, a1_state_.name);
