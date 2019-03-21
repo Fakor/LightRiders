@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     static \
-    test
+    test \
+    graphics
