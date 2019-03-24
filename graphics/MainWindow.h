@@ -1,7 +1,8 @@
 #pragma once
 
-
 #include <QMainWindow>
+
+#include "gridboardgui.h"
 
 namespace graph{
 
