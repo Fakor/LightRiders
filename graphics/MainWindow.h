@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 
-#include "gridboardgui.h"
+#include "enginegui.h"
 
 namespace graph{
 

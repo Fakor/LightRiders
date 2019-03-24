@@ -6,16 +6,18 @@
 #include <QLabel>
 
 #include "../static/standard_definitions.h"
+#include "../static/engine.h"
+#include "../static/simple_agents.h"
 
 namespace graph{
 
-    class GridBoardGUI: public QWidget
+    class EngineGUI: public QWidget
     {
         Q_OBJECT
     public:
-        GridBoardGUI(standard::GridBoard_S* board, QSize set_size, QWidget *parent);
+        EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, standard::Agent_S* a1);
     private:
-        standard::GridBoard_S* board_;
+        standard::Engine engine_;
     };
 
 }

@@ -6,13 +6,12 @@ namespace graph{
     {
         QVBoxLayout* layout = new QVBoxLayout;
 
-        standard::GridBoard_S board;
-
-        board.Reset({2,2}, {3,4});
-
         setFixedSize({500, 500});
 
-        graph::GridBoardGUI* board_g = new graph::GridBoardGUI(&board, size(), this);
+        standard::SafeClockwiseBias_S a0(base::Action::UP);
+        standard::SafeClockwiseBias_S a1(base::Action::DOWN);
+
+        graph::EngineGUI* board_g = new graph::EngineGUI(size(), this, &a0, &a1);
 
         layout->addWidget(board_g);
     }
