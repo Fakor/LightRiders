@@ -54,4 +54,7 @@ namespace standard {
         return board_.GetStatus();
     }
 
+    const Status_S* Engine::GetStatusPtr() const{
+        return board_.GetStatusPtr();
+    }
 }

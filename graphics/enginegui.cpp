@@ -18,12 +18,12 @@ EngineGUI::EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, sta
 
     for (short i = 0; i < standard::HEIGHT; ++i) {
         for (short j = 0; j < standard::WIDTH; ++j) {
-            QLabel* label = new QLabel;
-            char v = engine_.GetStatus().GetElement(base::Position{j,i});
-            label->setText(QString(v));
-            layout->addWidget(label, i, j);
+            SquareGUI* square = new SquareGUI({j,i}, engine_.GetStatusPtr());
+            layout->addWidget(square, i, j);
+            connect(this, SIGNAL(Update()), square, SLOT(Update()));
         }
     }
+    Update();
 }
 
 }

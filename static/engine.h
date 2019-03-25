@@ -21,6 +21,7 @@ namespace standard {
         void Reset();
 
         Status_S GetStatus() const;
+        const Status_S* GetStatusPtr() const;
     private:
         Agent_S* a0_;
         Agent_S* a1_;

@@ -34,6 +34,7 @@ namespace base {
         char GetSquareValue(Position pos) const;
 
         StatusT GetStatus() const {return status_;}
+        const StatusT* GetStatusPtr() const {return &status_;}
         void UpdateStatus();
         bool PerformTurn();
 

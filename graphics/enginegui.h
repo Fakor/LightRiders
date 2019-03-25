@@ -5,9 +5,10 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include "squaregui.h"
+
 #include "../static/standard_definitions.h"
 #include "../static/engine.h"
-#include "../static/simple_agents.h"
 
 namespace graph{
 
@@ -16,6 +17,8 @@ namespace graph{
         Q_OBJECT
     public:
         EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, standard::Agent_S* a1);
+    signals:
+        void Update();
     private:
         standard::Engine engine_;
     };
