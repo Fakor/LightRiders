@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QTimer>
 
 #include "squaregui.h"
 
@@ -22,6 +23,8 @@ namespace graph{
 
     protected:
         void keyPressEvent(QKeyEvent *event) override;
+    public slots:
+        void TurnAndUpdate();
     signals:
         void Update();
     private:

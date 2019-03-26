@@ -3,6 +3,7 @@
 #include <QMainWindow>
 
 #include "enginegui.h"
+#include "keyboardagent.h"
 
 namespace graph{
 

@@ -18,7 +18,8 @@ SOURCES += \
         main.cpp \
     MainWindow.cpp \
     enginegui.cpp \
-    squaregui.cpp
+    squaregui.cpp \
+    keyboardagent.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,7 +29,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     MainWindow.h \
     enginegui.h \
-    squaregui.h
+    squaregui.h \
+    keyboardagent.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../static/release/ -lstatic
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../static/debug/ -lstatic

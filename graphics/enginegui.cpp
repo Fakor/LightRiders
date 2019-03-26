@@ -23,7 +23,10 @@ EngineGUI::EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, sta
         }
     }
     Update();
-    grabKeyboard();
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(TurnAndUpdate()));
+    timer->start(500);
 }
 
 void EngineGUI::keyPressEvent(QKeyEvent *event){
@@ -33,6 +36,11 @@ void EngineGUI::keyPressEvent(QKeyEvent *event){
         engine_.PerformTurn();
         Update();
     }
+}
+
+void EngineGUI::TurnAndUpdate(){
+    engine_.PerformTurn();
+    Update();
 }
 
 }
