@@ -15,7 +15,6 @@ EngineGUI::EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, sta
     QSize cell_size{ cell_height, cell_width };
 
     engine_.Reset({4,6});
-
     for (short i = 0; i < standard::HEIGHT; ++i) {
         for (short j = 0; j < standard::WIDTH; ++j) {
             SquareGUI* square = new SquareGUI({j,i}, engine_.GetStatusPtr());
@@ -24,6 +23,16 @@ EngineGUI::EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, sta
         }
     }
     Update();
+    grabKeyboard();
+}
+
+void EngineGUI::keyPressEvent(QKeyEvent *event){
+    int input_char = event->key();
+    qDebug() << "Input character " << input_char;
+    if(input_char == Qt::Key_Space){
+        engine_.PerformTurn();
+        Update();
+    }
 }
 
 }

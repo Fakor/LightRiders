@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
+#include <QKeyEvent>
+#include <QDebug>
 
 #include "squaregui.h"
 
@@ -17,6 +19,9 @@ namespace graph{
         Q_OBJECT
     public:
         EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, standard::Agent_S* a1);
+
+    protected:
+        void keyPressEvent(QKeyEvent *event) override;
     signals:
         void Update();
     private:
