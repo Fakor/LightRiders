@@ -12,7 +12,7 @@ namespace standard {
         Engine(Agent_S* a0, Agent_S* a1);
 
         void Reset(base::Position a0_start_position);
-        void PerformTurn();
+        bool PerformTurn();
         int PerformRound();
 
         int A0Wins() const;

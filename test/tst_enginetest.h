@@ -61,7 +61,7 @@ TEST(StandardEngineTest, PerformRound){
 
     int turns = engine.PerformRound();
 
-    ASSERT_EQ(4, turns);
+    ASSERT_EQ(3, turns);
     ASSERT_EQ(engine.A0Wins(), 0);
     ASSERT_EQ(engine.A1Wins(), 1);
 

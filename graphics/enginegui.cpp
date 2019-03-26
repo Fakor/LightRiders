@@ -24,9 +24,8 @@ EngineGUI::EngineGUI(QSize set_size, QWidget *parent, standard::Agent_S* a0, sta
     }
     Update();
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(TurnAndUpdate()));
-    timer->start(500);
+    connect(&timer_, SIGNAL(timeout()), this, SLOT(TurnAndUpdate()));
+    timer_.start(500);
 }
 
 void EngineGUI::keyPressEvent(QKeyEvent *event){
@@ -39,7 +38,9 @@ void EngineGUI::keyPressEvent(QKeyEvent *event){
 }
 
 void EngineGUI::TurnAndUpdate(){
-    engine_.PerformTurn();
+    if(!engine_.PerformTurn()){
+        timer_.stop();
+    }
     Update();
 }
 

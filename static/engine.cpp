@@ -22,17 +22,17 @@ namespace standard {
         board_.Reset(a0_start_position, a1_start_position);
     }
 
-    void Engine::PerformTurn(){
+    bool Engine::PerformTurn(){
         a0_->ChooseAction();
         a1_->ChooseAction();
         board_.PerformTurn();
+        return board_.Agent0Alive() && board_.Agent1Alive();
     }
 
     int Engine::PerformRound(){
         int i = 0;
-        while(board_.Agent0Alive() && board_.Agent1Alive()){
+        while(PerformTurn()){
             ++i;
-            PerformTurn();
         }
         if(board_.Agent0Alive() && !board_.Agent1Alive()){
             ++a0_wins_;

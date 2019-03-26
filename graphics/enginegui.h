@@ -29,6 +29,7 @@ namespace graph{
         void Update();
     private:
         standard::Engine engine_;
+        QTimer timer_;
     };
 
 }
