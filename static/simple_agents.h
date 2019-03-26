@@ -37,6 +37,21 @@ namespace agents{
             candidate = help::NextActionClockwise(candidate);
         }
     }
+
+    template <int M, int N>
+    class RandomSafeAgent: public base::Agent<M,N>{
+    public:
+        RandomSafeAgent(unsigned int seed): gen_{seed} {}
+        void ChooseAction() override;
+    private:
+        help::RandomSafeActionGenerator<M,N> gen_;
+    };
+
+    template <int M, int N>
+    void RandomSafeAgent<M,N>::ChooseAction(){
+        this->SetAction(gen_.GenerateAction());
+    }
+
 }
 
 #endif // SIMPLE_AGENTS_H
