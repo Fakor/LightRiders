@@ -13,8 +13,13 @@ namespace graph {
     }
 
     void SquareGUI::Update(){
-        QString value(status_->GetElement(index_));
-        setText(value);
+        char name = status_->GetElement(index_);
+        if(name == '0'){
+            setStyleSheet("QLabel { color : blue; }");
+        } else if(name == '1'){
+            setStyleSheet("QLabel { color : red; }");
+        }
+        setText(QString(name));
     }
 
 
