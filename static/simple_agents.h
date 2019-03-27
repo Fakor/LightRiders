@@ -49,7 +49,7 @@ namespace agents{
 
     template <int M, int N>
     void RandomSafeAgent<M,N>::ChooseAction(){
-        this->SetAction(gen_.GenerateAction());
+        this->SetAction(gen_.GenerateAction(this->CurrentStatus(), this->GetPosition()));
     }
 
 }
