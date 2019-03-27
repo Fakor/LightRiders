@@ -2,8 +2,8 @@
 
 namespace standard {
 
-    Engine::Engine(Agent_S* a0, Agent_S* a1)
-        : a0_{a0}, a1_{a1}
+    Engine::Engine(Agent_S* a0, Agent_S* a1, unsigned int seed)
+        : a0_{a0}, a1_{a1}, generator_{seed}, dist_x_{1, 6}, dist_y_{1, 14}
     {
         a0_->Connect(board_.GetConnection0());
         a1_->Connect(board_.GetConnection1());
@@ -22,6 +22,12 @@ namespace standard {
         board_.Reset(a0_start_position, a1_start_position);
     }
 
+    void Engine::ResetRandom(){
+        int16_t x = static_cast<int16_t>(dist_x_(generator_));
+        int16_t y = static_cast<int16_t>(dist_y_(generator_));
+        Reset(base::Position(x,y));
+    }
+
     bool Engine::PerformTurn(){
         a0_->ChooseAction();
         a1_->ChooseAction();
@@ -38,6 +44,8 @@ namespace standard {
             ++a0_wins_;
         } else if(!board_.Agent0Alive() && board_.Agent1Alive()){
             ++a1_wins_;
+        } else {
+            ++draws_;
         }
         return i;
     }
@@ -48,6 +56,10 @@ namespace standard {
 
     int Engine::A1Wins() const{
         return a1_wins_;
+    }
+
+    int Engine::Draws() const{
+        return draws_;
     }
 
     Status_S Engine::GetStatus() const{
